@@ -8,14 +8,14 @@ function App() {
  
   const handleFetchSynonyms = (e) => {
     e.preventDefault();
-    fetch(`https://api.datamuse.com/words?rel_syn=fast`)
+    fetch(`https://api.datamuse.com/words?rel_syn=${word}`)
       .then((response) => response.json())
       .then(setSynonyms);
   }
 
   return (
     <div className="App">
-      <form method='POST' actiopn="/url" onSubmit={handleFetchSynonyms}>
+      <form method="POST" actiopn="/url" onSubmit={handleFetchSynonyms}>
         <label htmlFor="word-input">Your Word</label>
         <input
           id="word-input"
@@ -24,6 +24,11 @@ function App() {
         ></input>
         <button>Submit</button>
       </form>
+      <ul>
+        {synonyms.map((synonyms) => (
+          <li key={synonyms.word}>{synonyms.word}</li>
+        ))}
+      </ul>
     </div>
   );
 }
