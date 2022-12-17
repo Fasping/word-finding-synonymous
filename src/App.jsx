@@ -5,14 +5,23 @@ import './App.css'
 function App() {
   const [word, setWord] = useState("");
   const [synonyms, setSynonyms] = useState([]);
- 
-  const handleFetchSynonyms = (e) => {
-    e.preventDefault();
-    fetch(`https://api.datamuse.com/words?rel_syn=${word}`)
-      .then((response) => response.json())
-      .then(setSynonyms);
-  }
 
+  const fetchSynonyms = (word) => {
+  fetch(`https://api.datamuse.com/words?rel_syn=${word}`)
+    .then((response) => response.json())
+    .then(setSynonyms);
+  }
+  
+  const handleFetchSynonyms = (e) => {
+      e.preventDefault();
+      fetchSynonyms(word);
+    };
+
+  const handleSynonymClicked = (newWord)=> {
+    setWord(newWord);
+    fetchSynonyms(newWord);
+  } 
+  
   return (
     <div className="App">
       <form method="POST" actiopn="/url" onSubmit={handleFetchSynonyms}>
@@ -26,7 +35,7 @@ function App() {
       </form>
       <ul>
         {synonyms.map((synonyms) => (
-          <li key={synonyms.word}>{synonyms.word}</li>
+          <li onClick={()=> handleSynonymClicked(synonyms.word) } key={synonyms.word}>{synonyms.word}</li>
         ))}
       </ul>
     </div>
